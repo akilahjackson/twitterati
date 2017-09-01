@@ -35,13 +35,18 @@ do  {
 
 if ($status = 429) {
 
+$applicationcheck = $twitter->buildOauth('https://api.twitter.com/1.1/application/rate_limit_status.json', $requestMethod)
+->performRequest();
+
+echo print_r(json_decode($applicationcheck,true))."\n";
+
 echo "Rate Limit Execeed- 15 minute (900 seconds) countdown begins:" . "\n";
 
 for($i = 900; $i > 0; $i--)
 {
   echo $i;
   sleep(1);
-  echo "\n"; 
+  echo " \\\\ "; 
 }
 
 echo "0\nThanksForYourPatience!";
