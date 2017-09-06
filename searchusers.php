@@ -1,7 +1,7 @@
 <?php
 
 require_once('twitter-api-php/TwitterAPIExchange.php');
-$search_term = "umd";
+$search_term = "maryland";
 $page = 1;
 $count = 1000;
 
@@ -28,7 +28,7 @@ $response = $twitter->setGetfield($getfield)
 $status = $twitter->getHttpStatusCode();
 
 echo "Your search term : " . " " . $search_term . " ". " results from Twitter : " . "\n" ; 
-echo $search_term."-".$page." ". "has printed". " ". "with a response code of: ".$status."\n";
+//echo $search_term."-".$page." ". "has printed". " ". "with a response code of: ".$status."\n";
 
 
 
@@ -55,7 +55,7 @@ echo "0\nThanksForYourPatience!";
 }*/
 
 
-$page++;
+
 
 $url = 'https://api.twitter.com/1.1/users/search.json';
 $getfield = '?q='.$search_term.'&page='.$page.'&count='.$count;
@@ -73,8 +73,8 @@ echo $search_term."-".$page." ". "has printed". " ". "with a response code of: "
 file_put_contents( $search_term."-".$page.".json", $response, FILE_APPEND);
 
 
-
-} while ($page != 1000);
+$page++;
+} while ($page != 900);
 
 
 ?>
