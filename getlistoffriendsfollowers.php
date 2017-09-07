@@ -30,29 +30,13 @@ $status = $twitter->getHttpStatusCode();
 echo "You wanted" . " " . $screen_name . " ". "Followers from Twitter : " . "\n" ; 
 echo $previouscursor ." ". "has printed". "\n";
 
+file_put_contents( $previouscursor.".json", serialize($mydata), FILE_APPEND) ; 
+
 
 do  {
 
-if ($status = 429) {
 
-$applicationcheck = $twitter->buildOauth('https://api.twitter.com/1.1/application/rate_limit_status.json', $requestMethod)
-->performRequest();
-
-echo print_r(json_decode($applicationcheck,true))."\n";
-
-echo "Rate Limit Execeed- 15 minute (900 seconds) countdown begins:" . "\n";
-
-for($i = 900; $i > 0; $i--)
-{
-  echo $i;
-  sleep(1);
-  echo " \\\\ "; 
-}
-
-echo "0\nThanksForYourPatience!";
-
-}
-
+	
 
 $response = $twitter->setGetfield($getfield."&cursor=".$cursor)
     ->buildOauth($url, $requestMethod)
@@ -66,8 +50,52 @@ echo $cursor ." ". "has printed". " ". "with a response code of: ".$status."\n";
 file_put_contents( $cursor.".json", serialize($mydata), FILE_APPEND) ; 
 $cursor = $mydata["next_cursor"];
 
+if ($cursor==0) {
 
-} while ($cursor != 0);
+$applicationcheck = $twitter->buildOauth('https://api.twitter.com/1.1/application/rate_limit_status.json', $requestMethod)
+->performRequest();
+
+//echo print_r(json_decode($applicationcheck,true))."\n";
+
+$applicationstatus = json_decode($applicationcheck,true);
+		
+print_r($applicationstatus["resources"]["followers"])."\n";
+
+
+		 $resettime = $applicationstatus["resources"]["followers"]["/followers/list"]["remaining"];
+
+		 
+		
+		 echo "Script will reset at : ". gmdate('r', $resettime). "\n\n\n";	
+	
+
+
+echo "Rate Limit Execeed- 15 minute (900 seconds) countdown begins:" . "\n";
+
+	do {
+
+$n = 0;
+
+		for($i = 905; $i > 0; $i--)
+			{
+			echo $i;
+			sleep(1);
+			echo " \\\\ "; 
+			}
+
+		echo "0\nThanksForYourPatience!";
+		
+		//$applicationstatus = json_decode($applicationcheck,true);
+				$n++;
+		
+		echo "Number of Times the application has tried to re-run is : " . $n ."\n";
+	} while($n <=2);
+	
+} 
+
+
+
+} while ($cursor !=0);
 
 
 ?>
