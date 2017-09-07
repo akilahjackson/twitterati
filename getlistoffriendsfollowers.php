@@ -36,7 +36,7 @@ file_put_contents( $previouscursor.".json", serialize($mydata), FILE_APPEND) ;
 do  {
 
 
-	
+$cursor = $mydata["next_cursor"];	
 
 $response = $twitter->setGetfield($getfield."&cursor=".$cursor)
     ->buildOauth($url, $requestMethod)
@@ -48,7 +48,7 @@ echo $cursor ." ". "has printed". " ". "with a response code of: ".$status."\n";
 
 
 file_put_contents( $cursor.".json", serialize($mydata), FILE_APPEND) ; 
-$cursor = $mydata["next_cursor"];
+
 
 if ($cursor==0) {
 
@@ -89,7 +89,7 @@ $n = 0;
 				$n++;
 		
 		echo "Number of Times the application has tried to re-run is : " . $n ."\n";
-	} while($n <=2);
+	} while($n ==1);
 	
 } 
 
