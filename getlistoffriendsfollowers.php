@@ -64,17 +64,20 @@ print_r($applicationstatus["resources"]["followers"])."\n";
 
 		 $resettime = $applicationstatus["resources"]["followers"]["/followers/list"]["remaining"];
 
-		 
+	
 		
-		 echo "Script will reset at : ". gmdate('r', $resettime). "\n\n\n";	
+		
+		 echo "\n\n"."Script will reset at : ". unixtojd($resettime)+($t%60*60*24)/60*60*24;. "\n\n\n";	
 	
 
 
 echo "Rate Limit Execeed- 15 minute (900 seconds) countdown begins:" . "\n";
 
+$n = 0;
+
 	do {
 
-$n = 0;
+
 
 		for($i = 905; $i > 0; $i--)
 			{
@@ -83,13 +86,13 @@ $n = 0;
 			echo " \\\\ "; 
 			}
 
-		echo "0\nThanksForYourPatience!";
+		echo "\n\n\n"."ThanksForYourPatience!"."\n\n";
 		
 		//$applicationstatus = json_decode($applicationcheck,true);
 				$n++;
 		
 		echo "Number of Times the application has tried to re-run is : " . $n ."\n";
-	} while($n ==1);
+	} while($n==1);
 	
 } 
 
