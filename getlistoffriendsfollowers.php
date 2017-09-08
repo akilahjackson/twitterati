@@ -22,15 +22,15 @@ $response = $twitter->setGetfield($getfield)
     
 $mydata = json_decode($response,true);
 
-
-$previouscursor = "first_page";
+$firstpage = "First_Page";
+$previouscursor = $mydata["previous_cursor"];
 $cursor = $mydata["next_cursor"];
 $status = $twitter->getHttpStatusCode();
 
 echo "You wanted" . " " . $screen_name . " ". "Followers from Twitter : " . "\n" ; 
-echo $previouscursor ." ". "has printed". "\n";
+echo $firstpage ." ". "has printed". "\n";
 
-file_put_contents( $previouscursor.".json", serialize($mydata), FILE_APPEND) ; 
+file_put_contents( $firstpage.".json", serialize($mydata), FILE_APPEND) ; 
 
 
 do  {
@@ -46,24 +46,25 @@ $mydata = json_decode($response,true);
 
 echo $cursor ." ". "has printed". " ". "with a response code of: ".$status."\n";
 
-
 file_put_contents( $cursor.".json", serialize($mydata), FILE_APPEND) ; 
 
-
-if ($cursor == "") {
 
 $applicationcheck = $twitter->buildOauth('https://api.twitter.com/1.1/application/rate_limit_status.json', $requestMethod)
 ->performRequest();
 
-//echo print_r(json_decode($applicationcheck,true))."\n";
 
 $applicationstatus = json_decode($applicationcheck,true);
+$appreset =$applicationstatus["resources"]["followers"]["/followers/list"]["reset"];
+$appremaining = $applicationstatus["resources"]["followers"]["/followers/list"]["remaining"];
+
+if ($appremaining <= 3) {
+
+
 		
-print_r($applicationstatus["resources"]["followers"])."\n";
+print_r($applicationstatus["resources"]["followers"])."\n\n";
 	
 
-
-echo "Rate Limit Execeed- 15 minute (900 seconds) countdown begins:" . "\n";
+echo "Rate Limit Execeed- 15 minute (900 seconds) countdown begins:" . "\n\n";
 
 $n = 0;
 
@@ -72,29 +73,28 @@ $n = 0;
 
 
 	
-		for($i = 905; $i > 0; $i--)
+		for($i = 10; $i > 0; $i--)
 			{
 			echo $i;
 			sleep(1);
 			echo " \\\\ "; 
 			}
 
-		echo "\n\n\n"."ThanksForYourPatience!"."\n\n";
+		echo "\n\n\n"."Thanks For Your Patience!"."\n\n";
 		
-		//$applicationstatus = json_decode($applicationcheck,true);
+		echo "\n\n\n"."The Reset Time for Your App is ".$appreset."\n\n";
+		echo "\n\n\n"."The Remaining Calls before the next reset is ".$appremaining--."\n\n";
+		
 				$n++;
 		
 		echo "Number of Times the application has tried to re-run is : " . $n ."\n\n";		
 		 
 	continue;
-	
 	}
-	
-continue;
+
 }
 
-continue;
 
-} while ($cursor != "");
+} while ($status != 429);
 
 ?>

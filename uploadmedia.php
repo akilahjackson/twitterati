@@ -1,5 +1,4 @@
 <?php
-
 require_once('twitter-api-php/TwitterAPIExchange.php');
 
 $url = 'https://upload.twitter.com/1.1/media/upload.json';
@@ -19,14 +18,15 @@ $twitter = new TwitterAPIExchange($settings);
 $nameoffile = "animatedpoliticalposterAfscme.gif";
 $filelocation = "media/";
 $file = file_get_contents($filelocation."/".$nameoffile);
+$base64_file = base64_encode($file);
 $mimetype = mime_content_type ($filelocation."/".$nameoffile);
 $totalbytes = filesize($filelocation."/".$nameoffile);
 
 ///Postfields for initalizing the media upload
 $initpostfields = array(
 		'command' => 'INIT',
-		'media_type' => "'".$mimetype."'",
-		'total_bytes' => "'".$totalbytes."'",
+		'media_type' => $mimetype,
+		'total_bytes' => $totalbytes,
 		'additional_owners'=>'9246732,744587330770604033',
 		'media_category' => 'tweet_gif'
 		);
@@ -43,7 +43,7 @@ echo "Initializing media file........" .$status."\n\n";
 
 print_r($initrequest);
 
-file_put_contents( $nameofile.".json", $initresponse, FILE_APPEND);
+file_put_contents( $nameoffile.".json", serialize($initrequest), FILE_APPEND);
 
 echo "Printing log of request ........" .$status."\n\n";
 
@@ -53,13 +53,14 @@ $media_id = $initrequest["media_id"];
 
 $appendpostfields = array (
 		'command' => 'APPEND',
-		'media_id' => "'".$media_id."'",
-		'segment_index' => '0'
+		'media_id' => $media_id,
+		'segment_index' => '0',
+		'media_data' => $base64_file
 		
 		);
 
 $appendresponse = $twitter->setPostfields($appendpostfields)
-    ->buildOauth($url.' --file'.$filelocation.'/'.$nameoffile.' --file-field '.'media', $requestMethod)
+    ->buildOauth($url, $requestMethod)
     ->performRequest();
     
 $status = $twitter->getHttpStatusCode();
@@ -70,7 +71,7 @@ echo "Appending media file........" .$status."\n\n";
 
 print_r($appendrequest);
 
-file_put_contents( $nameofile.".json", $appendresponse, FILE_APPEND);
+file_put_contents( $nameoffile.".json", serialize($appendrequest), FILE_APPEND);
 
 echo "Printing log of request ........" .$status."\n\n"; 
 
@@ -79,7 +80,7 @@ echo "Printing log of request ........" .$status."\n\n";
 
 $finalpostfields = array (
 		'command' => 'FINALIZE',
-		'media_id' => "'".$media_id."'"
+		'media_id' => $media_id
 			
 		);
 
@@ -91,11 +92,11 @@ $status = $twitter->getHttpStatusCode();
 
 $finalrequest = json_decode($finalresponse, true);
 
-echo "Appending media file........" .$status."\n\n";
+echo "Finalizing media file........" .$status."\n\n";
 
 print_r($finalrequest);
 
-file_put_contents( $nameofile.".json", $finalresponse, FILE_APPEND);
+file_put_contents( $nameoffile.".json", serialize($finalrequest), FILE_APPEND);
 
 echo "Printing log of request ........" .$status."\n\n"; 
 
