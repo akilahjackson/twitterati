@@ -50,7 +50,7 @@ echo $cursor ." ". "has printed". " ". "with a response code of: ".$status."\n";
 file_put_contents( $cursor.".json", serialize($mydata), FILE_APPEND) ; 
 
 
-if ($cursor==0) {
+if ($cursor ==0) {
 
 $applicationcheck = $twitter->buildOauth('https://api.twitter.com/1.1/application/rate_limit_status.json', $requestMethod)
 ->performRequest();
@@ -67,7 +67,7 @@ print_r($applicationstatus["resources"]["followers"])."\n";
 	
 		
 		
-		 echo "\n\n"."Script will reset at : ". unixtojd($resettime)+($t%60*60*24)/60*60*24;. "\n\n\n";	
+		 echo "\n\n"."Script will reset at : ". unixtojd(($resettime)+($t%60*60*24)/60*60*24). "\n\n\n";	
 	
 
 
@@ -92,7 +92,7 @@ $n = 0;
 				$n++;
 		
 		echo "Number of Times the application has tried to re-run is : " . $n ."\n";
-	} while($n==1);
+	} while($n ==1);
 	
 } 
 
