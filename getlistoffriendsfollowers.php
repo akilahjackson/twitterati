@@ -50,7 +50,7 @@ echo $cursor ." ". "has printed". " ". "with a response code of: ".$status."\n";
 file_put_contents( $cursor.".json", serialize($mydata), FILE_APPEND) ; 
 
 
-if ($cursor ==0) {
+if ($cursor == "") {
 
 $applicationcheck = $twitter->buildOauth('https://api.twitter.com/1.1/application/rate_limit_status.json', $requestMethod)
 ->performRequest();
@@ -60,14 +60,6 @@ $applicationcheck = $twitter->buildOauth('https://api.twitter.com/1.1/applicatio
 $applicationstatus = json_decode($applicationcheck,true);
 		
 print_r($applicationstatus["resources"]["followers"])."\n";
-
-
-		 $resettime = $applicationstatus["resources"]["followers"]["/followers/list"]["remaining"];
-
-	
-		
-		
-		 echo "\n\n"."Script will reset at : ". unixtojd(($resettime)+($t%60*60*24)/60*60*24). "\n\n\n";	
 	
 
 
@@ -75,10 +67,11 @@ echo "Rate Limit Execeed- 15 minute (900 seconds) countdown begins:" . "\n";
 
 $n = 0;
 
-	do {
+
+	if ($n<2) {
 
 
-
+	
 		for($i = 905; $i > 0; $i--)
 			{
 			echo $i;
@@ -91,14 +84,17 @@ $n = 0;
 		//$applicationstatus = json_decode($applicationcheck,true);
 				$n++;
 		
-		echo "Number of Times the application has tried to re-run is : " . $n ."\n";
-	} while($n ==1);
+		echo "Number of Times the application has tried to re-run is : " . $n ."\n\n";		
+		 
+	continue;
 	
-} 
+	}
+	
+continue;
+}
 
+continue;
 
-
-} while ($cursor !=0);
-
+} while ($cursor != "");
 
 ?>
