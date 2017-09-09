@@ -30,7 +30,7 @@ $status = $twitter->getHttpStatusCode();
 echo "You wanted" . " " . $screen_name . " ". "Followers from Twitter : " . "\n" ; 
 echo $firstpage ." ". "has printed". "\n";
 
-file_put_contents( $firstpage.".json", serialize($mydata), FILE_APPEND) ; 
+file_put_contents( "uomaryland/".$firstpage.".json", serialize($mydata), FILE_APPEND) ; 
 
 
 do  {
@@ -46,7 +46,7 @@ $mydata = json_decode($response,true);
 
 echo $cursor ." ". "has printed". " ". "with a response code of: ".$status."\n";
 
-file_put_contents( $cursor.".json", serialize($mydata), FILE_APPEND) ; 
+file_put_contents( "uomaryland/".$cursor.".json", serialize($mydata), FILE_APPEND) ; 
 
 
 $applicationcheck = $twitter->buildOauth('https://api.twitter.com/1.1/application/rate_limit_status.json', $requestMethod)
@@ -57,7 +57,7 @@ $applicationstatus = json_decode($applicationcheck,true);
 $appreset =$applicationstatus["resources"]["followers"]["/followers/list"]["reset"];
 $appremaining = $applicationstatus["resources"]["followers"]["/followers/list"]["remaining"];
 
-if ($appremaining <= 3) {
+if ($appremaining <= 2) {
 
 
 		
@@ -73,7 +73,7 @@ $n = 0;
 
 
 	
-		for($i = 10; $i > 0; $i--)
+		for($i = 901; $i > 0; $i--)
 			{
 			echo $i;
 			sleep(1);
