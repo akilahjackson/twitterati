@@ -20,6 +20,7 @@ $twitter = new TwitterAPIExchange($settings);
 
 $myid = 9246732;
 $sourceid = 811975859070443523;
+$mediaid = 907342644308783107;
 ///Postfields for initalizing the media upload
 $postarray = array(
 	
@@ -38,11 +39,12 @@ $postarray = array(
 							'attachment' => array (
 									'type' => 'media',
 										'media' => array (
-											'id' => '907339344662466560'
+											'id' => $mediaid
 						
+										)
+							
+								)
 						)
-					)
-							)
 			
 	)
 	)

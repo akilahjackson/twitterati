@@ -15,7 +15,7 @@ $settings = array(
 $twitter = new TwitterAPIExchange($settings);
 
 // File details
-$nameoffile = "animatedpoliticalposterAfscme.gif";
+$nameoffile = "animatedpoliticalposterAfscme2.gif";
 $filelocation = "media/";
 $file = file_get_contents($filelocation."/".$nameoffile);
 $base64_file = base64_encode($file);
