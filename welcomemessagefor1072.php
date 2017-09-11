@@ -19,7 +19,7 @@ $settings = array(
 $twitter = new TwitterAPIExchange($settings);
 
 $myid = 9246732;
-
+$sourceid = 811975859070443523;
 ///Postfields for initalizing the media upload
 $postarray = array(
 	
@@ -27,20 +27,27 @@ $postarray = array(
 			'type' =>'message_create',
 			'message_create' => array (
 				'target' => array (
-				'recipient_id' => $myid 
-				)
-			)
+					'recipient_id' => $myid
+					
+					),
+					
+					'sender_id' => $sourceid,
+					
+					'message_data' => array (
+							'text' => 'HAHAHA!!! It\'s Alive',
+							'attachment' => array (
+									'type' => 'media',
+										'media' => array (
+											'id' => '907339344662466560'
+						
+						)
+					)
+							)
 			
-	),
+	)
+	)
 			
-	'message_data' => array (
-			'text' => 'HAHAHA!!! It\'s Alive',
-			'quick_reply.type' => 'I see want you did there...give me a second to respond',
-			'attachment.type' => 'media',
-			'atachment.media.id' => '907002000407179265'
-			)
-	
-	);
+);
 		
 $postjson = json_encode($postarray)	;
 
@@ -48,7 +55,46 @@ echo "VAR DUMP of postjson". "\n\n";
 var_dump($postjson);
 echo "\n\n";
 
-$response = $twitter ->request($createmessageurl, $requestMethod, $postarray, '"Content-type: application/json"')
+// create curl resource
+$ch = curl_init();
+
+// set url
+curl_setopt($ch, CURLOPT_URL, $createmessageurl);
+
+// set the HTTP header
+
+curl_setopt($ch, CURLOPT_HTTPHEADER, array ('Content-Type: application/json', 'Content-Length: ' . strlen($postjson), 'Authorization: OAuth oauth_consumer_key="lKa06EW2OGOOXAsTffccUEYU1",oauth_token="811975859070443523-s3idYBSPXlzDvhqk5JqRJWnOHeQzeqA",oauth_signature_method="HMAC-SHA1",oauth_timestamp="1505147078",oauth_nonce="576LWZWukHP",oauth_version="1.0",oauth_signature="NcBLzj7Xr2s08%2BRqkhU8wUr4rVc%3D"'));
+
+// set the location of the JSON file to post
+//curl_setopt($ch, CURLOPT_POST, 1);
+//curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
+curl_setopt($ch, CURLOPT_POST, 1);
+curl_setopt($ch, CURLOPT_POSTFIELDS, $postjson);
+curl_setopt($ch, CURLOPT_VERBOSE, 1);
+curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+
+//return the transfer as a string
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+
+// $output contains the output string
+
+$output = curl_exec($ch);
+
+echo $output ."\n\n";
+
+// $status contains the HTTP response code
+$status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+$responseout = curl_getinfo($ch, CURLINFO_HEADER_OUT);
+
+echo $status . "\n\n" ;
+
+//close curl resource to free up system resources
+curl_close($ch);
+
+
+
+/*$response = $twitter ->buildOauth($createmessageurl, $requestMethod)
+->setPostfields($postarray)
 ->performRequest();
 
 $status = $twitter->getHttpStatusCode();
@@ -61,7 +107,7 @@ var_dump($response);
 
 echo "\n\n";
 
-vardump ($request);
+vardump ($request); */
 
 
 

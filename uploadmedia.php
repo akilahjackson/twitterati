@@ -28,7 +28,8 @@ $initpostfields = array(
 		'media_type' => $mimetype,
 		'total_bytes' => $totalbytes,
 		'additional_owners'=>'9246732,744587330770604033',
-		'media_category' => 'tweet_gif'
+		'media_category' => 'dm_gif',
+		'shared'=>'TRUE'
 		);
 		
 $initresponse = $twitter->setPostfields($initpostfields)
