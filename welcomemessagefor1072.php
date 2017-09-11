@@ -48,8 +48,8 @@ echo "VAR DUMP of postjson". "\n\n";
 var_dump($postjson);
 echo "\n\n";
 
-$response = $twitter
-->request($createmessageurl, $requestMethod, $postarray);
+$response = $twitter ->request($createmessageurl, $requestMethod, $postarray, '"Content-type: application/json"')
+->performRequest();
 
 $status = $twitter->getHttpStatusCode();
 
