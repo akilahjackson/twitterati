@@ -44,7 +44,7 @@ foreach($filename_array as $value)
 
 
 
-$j=6;
+$j=7;
 
 do {
 		
@@ -64,7 +64,7 @@ $datafromfile = file_get_contents("umuc/".$readfile,TRUE);
 	
 	$keystoarray = array_keys($json);
 	
-	for($i = 0; $i < count($json); $i++) {
+	for($i = 0; $i < (count($json)-4); $i++) {
 		
 		echo $keystoarray[$i] . "\n\n";
 		
@@ -144,7 +144,7 @@ $n = 0;
 
 
 
-} while($j !==0);
+} while($status !==429);
 
 
 
