@@ -1,7 +1,7 @@
 <?php
 
 require_once('twitter-api-php/TwitterAPIExchange.php');
-$screen_name = "umuc";
+$screen_name = "";
 
 $settings = array(
     'oauth_access_token' => "744587330770604033-NEWKzTFJjZAl2dL6NHiPSqFAeGjJKkX",

@@ -44,7 +44,7 @@ foreach($filename_array as $value)
 
 
 
-$j=7;
+$j=16;
 
 do {
 		

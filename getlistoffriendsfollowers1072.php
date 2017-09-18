@@ -1,7 +1,7 @@
 <?php
 
 require_once('twitter-api-php/TwitterAPIExchange.php');
-$screen_name = "UofMaryland";
+$screen_name = "AFSCME";
 
 $settings = array(
     'oauth_access_token' => "811975859070443523-s3idYBSPXlzDvhqk5JqRJWnOHeQzeqA",
@@ -10,14 +10,13 @@ $settings = array(
     'consumer_secret' => "iLFJnZYfuMCH38Juum3orEAfX2QU4pMW4y5LAXlQgmfsd4uGFr"
 );
 
-$restartcursor = 1565506688821987905;
 
 $url = 'https://api.twitter.com/1.1/followers/list.json';
 $getfield = '?screen_name='.$screen_name.'&skip_status=true&include_user_entities=true&count=5000';
 $requestMethod = 'GET';
 
 $twitter = new TwitterAPIExchange($settings);
-$response = $twitter->setGetfield($getfield."&cursor=".$restartcursor)
+$response = $twitter->setGetfield($getfield)
     ->buildOauth($url, $requestMethod)
     ->performRequest();
     
@@ -32,7 +31,7 @@ $status = $twitter->getHttpStatusCode();
 echo "You wanted" . " " . $screen_name . " ". "Followers from Twitter : " . "\n" ; 
 echo $firstpage ." ". "has printed". "\n";
 
-file_put_contents( "uomaryland/".$firstpage.".json", serialize($mydata), FILE_APPEND) ; 
+file_put_contents( "afscme/".$firstpage.".json", serialize($mydata), FILE_APPEND) ; 
 
 
 do  {
@@ -48,7 +47,7 @@ $mydata = json_decode($response,true);
 
 echo $cursor ." ". "has printed". " ". "with a response code of: ".$status."\n";
 
-file_put_contents( "uomaryland/".$cursor.".json", serialize($mydata), FILE_APPEND) ; 
+file_put_contents( "afscme/".$cursor.".json", serialize($mydata), FILE_APPEND) ; 
 
 
 $applicationcheck = $twitter->buildOauth('https://api.twitter.com/1.1/application/rate_limit_status.json', $requestMethod)
