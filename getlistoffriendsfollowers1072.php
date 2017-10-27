@@ -1,13 +1,13 @@
 <?php
 
 require_once('twitter-api-php/TwitterAPIExchange.php');
-$screen_name = "AFSCME";
+$screen_name = "AFSCMEMaryland";
 
 $settings = array(
-    'oauth_access_token' => "811975859070443523-s3idYBSPXlzDvhqk5JqRJWnOHeQzeqA",
-    'oauth_access_token_secret' => "TmBiYjr26JBP2IZvtuDNEO15B0vZaDJSPCN9JFrr2hXg3",
-    'consumer_key' => "lKa06EW2OGOOXAsTffccUEYU1",
-    'consumer_secret' => "iLFJnZYfuMCH38Juum3orEAfX2QU4pMW4y5LAXlQgmfsd4uGFr"
+    'oauth_access_token' => "811975859070443523-k07a581VEdTR4pDtU2uZXvolyzHdgrr",
+    'oauth_access_token_secret' => "q66980At0lhw7IDLL967BaPOjjvZlTGHC7HcnXgZK0enO",
+    'consumer_key' => "O4rWj6khPmSnypwYOMBiYyEjq",
+    'consumer_secret' => "QlxajPWnbESEwGDPvIXaw4abbG9eRsfvHGkDm8JcVHeR3n5KFO"
 );
 
 
@@ -31,7 +31,7 @@ $status = $twitter->getHttpStatusCode();
 echo "You wanted" . " " . $screen_name . " ". "Followers from Twitter : " . "\n" ; 
 echo $firstpage ." ". "has printed". "\n";
 
-file_put_contents( "afscme/".$firstpage.".json", serialize($mydata), FILE_APPEND) ; 
+file_put_contents( "afscmemd/".$firstpage.".json", serialize($mydata), FILE_APPEND) ; 
 
 
 do  {
@@ -47,7 +47,7 @@ $mydata = json_decode($response,true);
 
 echo $cursor ." ". "has printed". " ". "with a response code of: ".$status."\n";
 
-file_put_contents( "afscme/".$cursor.".json", serialize($mydata), FILE_APPEND) ; 
+file_put_contents( "afscmemd/".$cursor.".json", serialize($mydata), FILE_APPEND) ; 
 
 
 $applicationcheck = $twitter->buildOauth('https://api.twitter.com/1.1/application/rate_limit_status.json', $requestMethod)

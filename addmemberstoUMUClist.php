@@ -1,15 +1,15 @@
 <?php
 require_once('twitter-api-php/TwitterAPIExchange.php');
 
-$url = 'https://api.twitter.com/1.1/lists/members/create.json';
+$url = 'https://api.twitter.com/1.1/lists/members/create_all.json';
 $requestMethod = 'POST';
 
 //greenteam creds
 $settings = array(
-    'oauth_access_token' => "811975859070443523-s3idYBSPXlzDvhqk5JqRJWnOHeQzeqA",
-    'oauth_access_token_secret' => "TmBiYjr26JBP2IZvtuDNEO15B0vZaDJSPCN9JFrr2hXg3",
-    'consumer_key' => "lKa06EW2OGOOXAsTffccUEYU1",
-    'consumer_secret' => "iLFJnZYfuMCH38Juum3orEAfX2QU4pMW4y5LAXlQgmfsd4uGFr"
+    'oauth_access_token' => "811975859070443523-k07a581VEdTR4pDtU2uZXvolyzHdgrr",
+    'oauth_access_token_secret' => "q66980At0lhw7IDLL967BaPOjjvZlTGHC7HcnXgZK0enO",
+    'consumer_key' => "FngU98tO3pUZwmLbVxsXLJy6V",
+    'consumer_secret' => "awigBDzrnRjd3zG6Oojz8TfY7fvGHvuWrX0xa8U4ztz7gM9lcH"
 );
 
 
@@ -44,7 +44,7 @@ foreach($filename_array as $value)
 
 
 
-$j=16;
+$j=84;
 
 do {
 		
@@ -61,7 +61,7 @@ $datafromfile = file_get_contents("umuc/".$readfile,TRUE);
 	
 //print_r($json);
 	
-	
+
 	$keystoarray = array_keys($json);
 	
 	for($i = 0; $i < (count($json)-4); $i++) {
@@ -148,5 +148,4 @@ $n = 0;
 
 
 
-	
 	?>
